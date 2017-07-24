@@ -1,0 +1,70 @@
+Init
+
+    Seed randomizer
+    Initialise keyboard
+    Initialise graphics and palette
+    Initialise font and writing subsystem
+    Initialise data structure for manipulating bit patterns (seems redundant)
+    Draw loading box
+    Wait two seconds
+    Present main menu (New / Load Game / Quit)
+    Draw loading box
+    Initialise all Data Structures Independent of Savegame
+        Load Civilization Master Data
+        Load Game Options
+        Load Unit Tiles
+        Load Advances Master Data
+        Load Resource Tiles
+        Load Resource Master Data
+        Load Resource Transformation Logic
+        Load Requirements to Build Improvements (Advances and Resources)
+        Load Requirements to Build Units (Advances and Resources)
+        Load Improvement Tiles
+        Initialise City List
+        Initialise Unit List
+    If New Game Then Initialise Data Structures Dependent on Savegame:
+        Initialise List of City Names
+        Make User Select Map and Configure Civilizations In Play (Human, Computer, Not Available)
+        Initialise Year
+        Set years for transition into Bronze and Iron Working (seems redundant)
+        Load Terrain information from chosen Map Subset
+        Initialise the "Managers" (K, UM, N and Msg) on the basis of Init-constructor rather than Load-constructor
+        Go through list of civilizations to "ready" managers and for those civs active create a unit of "type 1" (settler) at their starting coordinates
+    If Saved Game Then
+        Request Name of Savegame
+        Load Data Structures Dependent on Savegame 
+    If Not Quit Game Then
+        Generate data structure for displaying map overview (terrain tile -> one pixel summary)
+
+Play
+
+    While Not Quit Game Loop The Rest Until Quit Game (F7)
+    Cycle through all civilisations and do the following:
+    Clear Screen
+    Draw Playfield
+    Display Status
+    Clear Keyboard Buffer
+    If New Turn (i.e. CivPointer = 1) Then
+        Collect Resources
+        Grow Cities
+        Cut Stores
+        Handle Societies
+        Clean Unit List
+    If Control of Current Civilization is Local Human Then:
+        Display Veil and wait for prompt if necessary
+        Present Notices and receive player feedback
+        Go through all the present civilisation's cities and present city status for those with idle production
+        If Science City is idle select new advance to research
+        Repeat the following until no idle units owned by present civilization left:
+            Let player control unit if it's not under Auto-Move
+    Else Primitive AI Then:
+        Perform Primitive AI Cycle
+    Else Advanced AI Then:
+        Perform Advanced AI Cycle
+    Once all civilizations have been cycled through, do the following:
+        Go through all cities and update their "Resource Exploitation" status wrt Shadow Map information on exploitation
+        Increase year counter appropriately for phase
+        If Iron or Bronze age thresholds have been reached notify players
+
+Done
+
